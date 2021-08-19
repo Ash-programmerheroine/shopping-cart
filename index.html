@@ -59,7 +59,7 @@
 
                      <div class="col-md-8">
                         <h5>Subtotal: </h5>
-                        <h5>Tax:</h5>
+                        <h5>Tax:(5%)</h5>
                         <h5>Total:</h5>
                      </div>
 
@@ -78,11 +78,10 @@
       </div>
    </section>
    <script>
-      //Iphone event handler
-    
+      //event handler function
       function handleProductChange(product, isIncrease){
-         const productInput = document.getElementById(product +'-quantity');
-         const productCount = parseInt(productInput.value);
+         
+         const productCount = getInputProduct(product);
          let productNewCount =  productCount;
          if(isIncrease == true){
             productNewCount =  productCount + 1;
@@ -90,8 +89,9 @@
          if(isIncrease == false &&  productCount > 0){
             productNewCount =  productCount - 1; 
          }
-         productInput.value =  productNewCount;
+        document.getElementById(product + '-quantity').value =  productNewCount;
          let productTotal =  0;
+         
          if(product == 'iphone'){
             
            productTotal =  productNewCount * 1219;
@@ -104,12 +104,15 @@
          document.getElementById(product +'-total').innerText = productTotal;
          calculateTotal();
       }
+
       function calculateTotal(){
-         const iphoneInput = document.getElementById('iphone-quantity');
-         const iphonecount = parseInt(iphoneInput.value);
-         const caseInput = document.getElementById('case-quantity');
-         const casecount = parseInt(caseInput.value);
-         const subTotalPrice = iphonecount * 1219 + casecount * 59;
+         
+         const  iphoneCount = getInputProduct('iphone');
+
+         
+         const caseCount =  getInputProduct('case');
+
+         const subTotalPrice = iphoneCount * 1219 + caseCount * 59;
          document.getElementById('subtotal-price').innerText =  subTotalPrice ;
 
          const taxPayPrice = Math.round(subTotalPrice * 0.05);
@@ -117,6 +120,12 @@
          
          const totalPrice = subTotalPrice +  taxPayPrice;
          document.getElementById("total-price").innerText = totalPrice;
+      }
+
+      function getInputProduct(product){
+         const productInput = document.getElementById(product +'-quantity');
+         const productCount = parseInt(productInput.value);
+         return productCount;
       }
       
 
